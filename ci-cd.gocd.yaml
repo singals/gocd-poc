@@ -17,10 +17,10 @@ pipelines:
       mygit:
         git: https://github.com/singals/gocd-poc.git
         branch: master
-      myupstream:
+#      myupstream:
         # type: dependency
-        pipeline: pipe2
-        stage: test
+#        pipeline: pipe2
+#        stage: test
     stages: # list of stages in order
       - demo:
           fetch_material: yes
