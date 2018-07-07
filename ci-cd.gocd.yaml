@@ -35,4 +35,8 @@ pipelines:
               tabs:
                 run: main.sh
               tasks:
-                - script: ./main.sh
+                - exec:
+                    command: bash
+                    arguments:
+                      - -c
+                      - sh main.sh
