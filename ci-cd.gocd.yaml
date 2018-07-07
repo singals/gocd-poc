@@ -1,18 +1,16 @@
 format_version: 2
 environments:
   test:
-    environment_variables:
-      ENV_NAME: test
     pipelines:
-      - poc
+      - poc-build
 
 pipelines:
-  poc:
-    group: pocGroup
+  poc-build:
+    group: poc
     label_template: "${mygit[:8]}"
     lock_behavior: none
-    parameters:
-      param1: value1
+#    parameters:
+#      param1: value1
     materials:
       mygit:
         git: https://github.com/singals/gocd-poc.git
@@ -22,21 +20,43 @@ pipelines:
 #        pipeline: pipe2
 #        stage: test
     stages: # list of stages in order
-      - demo:
+      - build:
           fetch_material: yes
           keep_artifacts: yes
 #          clean_workspace: yes
+          environment_variables:
+              PHASE: build
           jobs:
             run:
-              artifacts:
-                - build:
-                    source: main.sh
+#              artifacts:
+#                - build:
+#                    source: main.sh
   #                  destination: build
-              tabs:
-                run: main.sh
+#              tabs:
+#                run: main.sh
               tasks:
                 - exec:
                     command: bash
                     arguments:
                       - -c
-                      - sh main.sh
+                      - sh main.sh build
+      - test:
+          fetch_material: yes
+          keep_artifacts: yes
+#          clean_workspace: yes
+          environment_variables:
+            PHASE: test
+          jobs:
+            run:
+#              artifacts:
+#                - build:
+#                    source: main.sh
+  #                  destination: build
+#              tabs:
+#                run: main.sh
+              tasks:
+                - exec:
+                    command: bash
+                    arguments:
+                      - -c
+                      - sh main.sh test
