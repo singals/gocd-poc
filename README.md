@@ -9,7 +9,7 @@ This [link](https://docs.gocd.org/current/advanced_usage/pipelines_as_code.html)
 I am running the Go CD server in a docker container using the following commands.
 - For the server:
 ```sh
-> docker run -d -p8153:8153 -p8154:8154 gocd/gocd-server:v18.6.0 --name=gocd_server
+> docker run -d -p8153:8153 -p8154:8154 --name=gocd_server gocd/gocd-server:v18.6.0
 ```
 
 - For the agent:
