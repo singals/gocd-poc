@@ -22,14 +22,14 @@ pipelines:
         pipeline: pipe2
         stage: test
     stages: # list of stages in order
-      - test:
+      - demo:
           fetch_material: yes
           keep_artifacts: yes
 #          clean_workspace: yes
           jobs:
             run:
               artifacts:
-                - run:
+                - build:
                     source: main.sh
   #                  destination: build
               tabs:
