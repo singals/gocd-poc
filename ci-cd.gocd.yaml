@@ -7,7 +7,7 @@ environments:
       - poc
 
 pipelines:
-  pocPipe:
+  poc:
     group: pocGroup
     label_template: "${mygit[:8]}"
     lock_behavior: none
@@ -22,7 +22,7 @@ pipelines:
         pipeline: pipe2
         stage: test
     stages: # list of stages in order
-      - run:
+      - test:
           fetch_material: yes
           keep_artifacts: yes
 #          clean_workspace: yes
