@@ -1,2 +1,4 @@
 gocd-poc.iml
 .idea/
+terraform.tfvars
+.terraform/

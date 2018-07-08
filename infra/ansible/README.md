@@ -1,0 +1,1 @@
+We will be using [Ansible](https://www.ansible.com/) for all the 'Configuration Management'. 
