@@ -29,8 +29,9 @@ I am running the Go CD server in a docker container using the following commands
 
 - For the agent:
 
-TODO: Replace alpine agent by ubuntu agent and the set up the basic softwares on it.
-> docker run -itd -e GO_SERVER_URL=https://{host-ip}:$(docker inspect --format='{{(index (index .NetworkSettings.Ports "8154/tcp") 0).HostPort}}' gocd_server)/go gocd/gocd-agent-alpine-3.5:v18.6.0
+**TODO**: Set up the basic softwares on the agent (ex. Docker? Terraform?(Provisioning for test?)).
+
+> docker run -itd -e GO_SERVER_URL=https://{host-ip}:$(docker inspect --format='{{(index (index .NetworkSettings.Ports "8154/tcp") 0).HostPort}}' gocd_server)/go gocd/gocd-agent-ubuntu-16.04:v18.6.0
 
 Be sure to swap out `{host-ip}` with the IP of the host. Another point to note is that the server container is named
 `gocd_server` and we are using the same name to connect the agent in second command.

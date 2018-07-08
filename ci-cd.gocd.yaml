@@ -60,3 +60,5 @@ pipelines:
                     arguments:
                       - -c
                       - sh main.sh test
+# Replace dummy tasks and add for node.js
+# Add pipelines to deploy the app to demo env
