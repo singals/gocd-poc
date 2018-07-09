@@ -65,6 +65,14 @@ Once the server is up on http://localhost:8153.
         > unzip terraform_0.11.7_linux_386.zip
         > mv terraform /usr/local/bin/
         ```
+
+4. Setup on Go CD server:
+    1. Setting up the access key and secret key. Execute the following commands from the pipeline checked out code directory:
+        ```sh
+        > su go
+        > touch terraform.tfvars
+        ```
+        Now set the variables as suggested in [file](https://github.com/singals/gocd-poc/blob/master/infra/terraform/README.md)
 ## About the App
 
 We are using Node.js to spin up a basic minimalistic server. Terraform to provision and Ansible to setup the configurations.

@@ -12,6 +12,8 @@ case $1 in
 
     destroy)
             echo 'destroying'
+#            temporarily sleeping as we don't have deploy and config phase
+            sleep 30
             cd infra/terraform
             terraform destroy -auto-approve
             break
