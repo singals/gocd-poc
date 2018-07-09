@@ -25,7 +25,7 @@ pipelines:
           environment_variables:
               PHASE: build
           jobs:
-            run:
+            build:
               tasks:
                 - exec:
                     command: bash
@@ -38,7 +38,7 @@ pipelines:
           environment_variables:
             PHASE: test
           jobs:
-            run:
+            test:
               tasks:
                 - exec:
                     command: bash
@@ -46,5 +46,4 @@ pipelines:
                       - -c
                       - node src/test/test.js
 
-# Replace dummy tasks and add for node.js
 # Add pipelines to deploy the app to demo env

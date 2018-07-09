@@ -52,6 +52,12 @@ Once the server is up on http://localhost:8153.
 1. Set the environment as `test`
 2. Enable the Agent
 
+- Log in to the agent container and execute the following commands:
+```sh
+> apt-get update
+> apt-get install nodejs-legacy
+```
+
 ## About the App
 
 We are using Node.js to spin up a basic minimalistic server. Terraform to provision and Ansible to setup the configurations. 
