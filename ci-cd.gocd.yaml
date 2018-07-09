@@ -3,7 +3,8 @@ environments:
   test:
     pipelines:
       - poc-build
-#      - poc-deploy
+      - poc-provisioning
+      - poc-infra-destroy
 
 pipelines:
   poc-build:
@@ -14,10 +15,6 @@ pipelines:
       mygit:
         git: https://github.com/singals/gocd-poc.git
         branch: master
-#      myupstream:
-        # type: dependency
-#        pipeline: pipe2
-#        stage: test
     stages: # list of stages in order
       - build:
           fetch_material: yes
@@ -46,4 +43,52 @@ pipelines:
                       - -c
                       - node src/test/test.js
 
+  poc-provisioning:
+    group: infra
+    label_template: "${mygit[:8]}"
+    materials:
+      mygit:
+        git: https://github.com/singals/gocd-poc.git
+        branch: master
+      myupstream:
+        type: dependency
+        pipeline: poc-build
+        stage: test
+    stages: # list of stages in order
+      - provision:
+          fetch_material: yes
+          keep_artifacts: yes
+          jobs:
+            provisioning:
+              tasks:
+                - exec:
+                    command: bash
+                    arguments:
+                      - -c
+                      - sh provision.sh create
+
+
+  poc-infra-destroy:
+      group: infra
+      label_template: "${mygit[:8]}"
+      materials:
+        mygit:
+          git: https://github.com/singals/gocd-poc.git
+          branch: master
+        myupstream:
+          type: dependency
+          pipeline: poc-provisioning
+          stage: provision
+      stages: # list of stages in order
+        - destroy:
+            fetch_material: yes
+            keep_artifacts: yes
+            jobs:
+              destroy-infra:
+                tasks:
+                  - exec:
+                      command: bash
+                      arguments:
+                        - -c
+                        - sh provision.sh destroy
 # Add pipelines to deploy the app to demo env
