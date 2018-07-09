@@ -3,14 +3,13 @@ environments:
   test:
     pipelines:
       - poc-build
+#      - poc-deploy
 
 pipelines:
   poc-build:
     group: poc
     label_template: "${mygit[:8]}"
     lock_behavior: none
-#    parameters:
-#      param1: value1
     materials:
       mygit:
         git: https://github.com/singals/gocd-poc.git
@@ -23,17 +22,10 @@ pipelines:
       - build:
           fetch_material: yes
           keep_artifacts: yes
-#          clean_workspace: yes
           environment_variables:
               PHASE: build
           jobs:
             run:
-#              artifacts:
-#                - build:
-#                    source: main.sh
-  #                  destination: build
-#              tabs:
-#                run: main.sh
               tasks:
                 - exec:
                     command: bash
@@ -43,22 +35,16 @@ pipelines:
       - test:
           fetch_material: yes
           keep_artifacts: yes
-#          clean_workspace: yes
           environment_variables:
             PHASE: test
           jobs:
             run:
-#              artifacts:
-#                - build:
-#                    source: main.sh
-  #                  destination: build
-#              tabs:
-#                run: main.sh
               tasks:
                 - exec:
                     command: bash
                     arguments:
                       - -c
-                      - sh main.sh test
+                      - node src/test/test.js
+
 # Replace dummy tasks and add for node.js
 # Add pipelines to deploy the app to demo env
