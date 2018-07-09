@@ -14,50 +14,57 @@ any charges from AWS.)
 
 
 ### Building/Running the application:
-- Execute command from root of the project to build the docker image:
->  docker build -t singals/gocd-poc-node .
+1. Execute command from root of the project to build the docker image:
+    >  docker build -t singals/gocd-poc-node .
 
-Once this is successful, run the image using following command:
-> docker run -d -p8080:8080 singals/gocd-poc-node
+2. Once this is successful, run the image using following command:
+    > docker run -d -p8080:8080 singals/gocd-poc-node
 
 Verification: `curl localhost:8080` shall produce `Hello World!`
 
 ### Running a Go CD server & agent
 I am running the Go CD server in a docker container using the following commands.
-- For the server:
-> docker run -d -p8153:8153 -p8154:8154 --name=gocd_server gocd/gocd-server:v18.6.0
+1. For the server:
+    > docker run -d -p8153:8153 -p8154:8154 --name=gocd_server gocd/gocd-server:v18.6.0
 
-- For the agent:
+2. For the agent:
+    > docker run -itd -e GO_SERVER_URL=https://{host-ip}:$(docker inspect --format='{{(index (index .NetworkSettings.Ports "8154/tcp") 0).HostPort}}' gocd_server)/go gocd/gocd-agent-ubuntu-16.04:v18.6.0
 
-**TODO**: Set up the basic softwares on the agent (ex. Docker? Terraform?(Provisioning for test?)).
-
-> docker run -itd -e GO_SERVER_URL=https://{host-ip}:$(docker inspect --format='{{(index (index .NetworkSettings.Ports "8154/tcp") 0).HostPort}}' gocd_server)/go gocd/gocd-agent-ubuntu-16.04:v18.6.0
-
-Be sure to swap out `{host-ip}` with the IP of the host. Another point to note is that the server container is named
-`gocd_server` and we are using the same name to connect the agent in second command.
+    Be sure to swap out `{host-ip}` with the IP of the host. Another point to note is that the server container is named 
+    `gocd_server` and we are using the same name to connect the agent in second command.
 
 ### Setting up the Go CD server & agent
 Once the server is up on http://localhost:8153.
 
-- Add the following to the `Admin`>`Config XML`:
-```sh
-<config-repos>
-    <config-repo pluginId="yaml.config.plugin" id="gocd-yaml-config-example">
-        <git url="https://github.com/singals/gocd-poc.git" />
-    </config-repo>
-</config-repos>
-```
+1. Add the following to the `Admin`>`Config XML`:
+    ```sh
+    <config-repos>
+        <config-repo pluginId="yaml.config.plugin" id="gocd-yaml-config-example">
+            <git url="https://github.com/singals/gocd-poc.git" />
+        </config-repo>
+    </config-repos>
+    ```
 
-- Go to the `AGENTS` tab and do the following
-1. Set the environment as `test`
-2. Enable the Agent
+2. Go to the `AGENTS` tab and do the following
+    1. Set the environment as `test`
+    2. Enable the Agent
 
-- Log in to the agent container and execute the following commands:
-```sh
-> apt-get update
-> apt-get install nodejs-legacy
-```
+3. Setup required softwares on agent: Log in to the agent container and execute the following commands:
 
+    1. For installing node:
+        ```sh
+        > apt-get update
+        > apt-get install nodejs-legacy
+        ```
+
+   2. For installing Terraform:
+        ```sh
+        > apt-get install unzip
+        > apt-get install wget
+        > wget https://releases.hashicorp.com/terraform/0.11.7/terraform_0.11.7_linux_386.zip
+        > unzip terraform_0.11.7_linux_386.zip
+        > mv terraform /usr/local/bin/
+        ```
 ## About the App
 
-We are using Node.js to spin up a basic minimalistic server. Terraform to provision and Ansible to setup the configurations. 
+We are using Node.js to spin up a basic minimalistic server. Terraform to provision and Ansible to setup the configurations.
