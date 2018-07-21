@@ -73,6 +73,14 @@ Once the server is up on http://localhost:8153.
         > touch terraform.tfvars
         ```
         Now set the variables as suggested in [file](https://github.com/singals/gocd-poc/blob/master/infra/terraform/README.md)
+
+
+### TODO:
+1. Setup GoCD on AWS
+2. Use the same Jenkins instance to provision staging environment using terraform
+3. Use the same Jenkins instance to set up the configuration on staging environment
+4. Run a test
+
 ## About the App
 
 We are using Node.js to spin up a basic minimalistic server. Terraform to provision and Ansible to setup the configurations.
